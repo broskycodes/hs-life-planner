@@ -1,6 +1,6 @@
 class Item:
 
-    def __init__(self, item_type, type_importance, name, importance, location) -> None:
+    def __init__(self, item_type, type_importance, name, importance, location, reg_schedule) -> None:
         self.item_type = item_type  # Type of item (Ex. Academic, EC, Social)
         # Importance of type (Ex. Academic > Social), user defined (0-10)
         self.type_importance = type_importance
@@ -8,6 +8,7 @@ class Item:
         # Importance of item itself, user defined (0-10)
         self.importance = importance
         self.location = location  # Location of item (Ex. Room no., address)
+        self.reg_schedule = reg_schedule
 
     # Getters and setters for each attribute
 
@@ -51,10 +52,59 @@ class Item:
     def location(self, location):
         self._location = location
 
+    @property
+    def reg_schedule(self):
+        return self._reg_schedule
+
+    @reg_schedule.setter
+    def reg_schedule(self, reg_schedule):
+        self._reg_schedule = reg_schedule
+
 
 class Course(Item):
     item_type = "Course"
     type_importance = 5
 
-    def __init__(self, subject, importance, grade, weight=4.0, assignment_list=[]):
-        super._init_(self, item_type, type_importance, )
+# Need to define reg_schedule as map --> {"Monday"; [start, end], etc}
+    def __init__(self, name, importance, grade, room_n, reg_schedule, weight=4.0, assignment_list=[]):
+        super._init_(self, "Course", 5, name, importance, room_n, reg_schedule)
+        self.grade = grade
+        self.weight = weight
+        self.assignment_list = assignment_list
+
+    @property
+    def grade(self):
+        return self._grade
+
+    @grade.setter
+    def grade(self, grade):
+        self._grade = grade
+
+    @property
+    def weight(self):
+        return self._weight
+
+    @weight.setter
+    def weight(self, weight):
+        self._weight = weight
+
+    @property
+    def assignement_list(self):
+        return self._assignment_list
+
+    @assignment_list.setter
+    def assignment_list(self, assignment_list):
+        self._assignment_list = assignment_list
+
+    def add_assignment(self, assignment):
+        self._assignment_list.append(assignment)
+
+    def remove_assignment(self, assignment, index):
+        self._assignment_list.remove(assignment)
+
+
+class EC(Item):
+
+    def __init__(self, item_type, type_importance, name, importance, location):
+        super.__init__(self, item_type, type_importance,
+                       name, importance, location)
