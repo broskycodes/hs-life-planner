@@ -50,3 +50,11 @@ class Item:
     @location.setter
     def location(self, location):
         self._location = location
+
+
+class Course(Item):
+    item_type = "Course"
+    type_importance = 5
+
+    def __init__(self, subject, importance, grade, weight=4.0, assignment_list=[]):
+        super._init_(self, item_type, type_importance, )
