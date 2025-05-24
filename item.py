@@ -8,6 +8,7 @@ class Item:
         # Importance of item itself, user defined (0-10)
         self.importance = importance
         self.location = location  # Location of item (Ex. Room no., address)
+        # Dictionary of dates and respective DailySchedules
         self.reg_schedule = reg_schedule
 
     # Getters and setters for each attribute
@@ -65,12 +66,12 @@ class Course(Item):
     item_type = "Course"
     type_importance = 5
 
-# Need to define reg_schedule as map --> {"Monday"; [start, end], etc}
-    def __init__(self, name, importance, grade, room_n, reg_schedule, weight=4.0, assignment_list=[]):
+    def __init__(self, name, importance, grade, room_n, reg_schedule, special_schedules, weight=4.0, assignment_list=[]):
         super._init_(self, "Course", 5, name, importance, room_n, reg_schedule)
         self.grade = grade
         self.weight = weight
         self.assignment_list = assignment_list
+        self.special_schedules = special_schedules
 
     @property
     def grade(self):
@@ -99,12 +100,12 @@ class Course(Item):
     def add_assignment(self, assignment):
         self._assignment_list.append(assignment)
 
-    def remove_assignment(self, assignment, index):
+    def remove_assignment(self, assignment):
         self._assignment_list.remove(assignment)
 
 
 class EC(Item):
 
-    def __init__(self, item_type, type_importance, name, importance, location):
+    def __init__(self, item_type, type_importance, name, importance, location, reg_schedule, ):
         super.__init__(self, item_type, type_importance,
-                       name, importance, location)
+                       name, importance, location, reg_schedule)
