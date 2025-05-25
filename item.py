@@ -1,9 +1,11 @@
-# Defines any specific task, holding at least a name and an association
+# Defines any specific task or event, holding at least a name and an association
 class Item:
-    def __init__(self, name, association):
+    def __init__(self, name, association, current_status):
         self.name = name  # Name of event
         # Item the event is associated with (course, EC, NA)
         self.association = association
+        # Current status of the item (Upcoming, Completed, Late, etc)
+        self.current_status = current_status
 
     @property
     def name(self):
@@ -21,15 +23,23 @@ class Item:
     def association(self, association):
         self._association = association
 
+    @property
+    def current_status(self):
+        return self._current_status
+
+    @current_status.setter
+    def current_status(self, current_status):
+        self._current_status = current_status
+
     def display(self):
         return [self.name, self.association]
 
 # Defines an event with a specific timeframe (anything scheduled)
 
 
-class ScheduledEvent(Item):
-    def __init__(self, name, association, time, is_repeated):
-        super.__init__(self, name, association)
+class Event(Item):
+    def __init__(self, name, association, time, is_repeated, current_status):
+        super.__init__(self, name, association, current_status)
         self.time = time  # List containing the start and end times
         self.is_repeated = is_repeated  # Boolean containing if the event is repeated
 
@@ -51,3 +61,43 @@ class ScheduledEvent(Item):
 
     def display(self):
         return super().display().append(self.time, self.is_repeated)
+
+# Broad category of any task to be completed
+
+
+class Assignment(Item):
+    def __init__(self, name, association, due_date, current_status):
+        super.__init__(self, name, association, current_status)
+        self.due_date = due_date
+
+    @property
+    def due_date(self):
+        return self._due_date
+
+    @due_date.setter
+    def due_date(self, due_date):
+        self._due_date = due_date
+
+
+class GradedAssignment(Assignment):
+    def __init__(self, name, association, due_date, current_status, points, grade_affect):
+        super.__init__(self, name, association, due_date, current_status)
+        self.points = points  # Points the assignment is worth
+        # Percentage the assignment will affect your grade (work in progress)
+        self.grade_affect = grade_affect
+
+    @property
+    def points(self):
+        return self._points
+
+    @points.setter
+    def points(self, points):
+        self._points = points
+
+    @property
+    def grade_affect(self):
+        return self._grade_affect
+
+    @grade_affect.setter
+    def grade_affect(self, grade_affect):
+        self._grade_affect = grade_affect
