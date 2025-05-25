@@ -6,7 +6,7 @@ class DailySchedule():
     def __init__(self, start, end):
         self.start = start  # Start of the day
         self.end = end  # End of the day (bedtime)
-        self.current_event = "None"  # Sets current event to none
+        self.current_event = None  # Sets current event to none
 
     @property
     def start(self):
@@ -37,3 +37,6 @@ class DailySchedule():
             self.current_event = event
         # Add feature to check if event is already occuring? Then provide a warning?
         schedule.every().day.at(time).do(update_current_event(self, event))
+
+    def display_current_event(self):
+        print(self.current_event)
