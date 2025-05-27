@@ -46,6 +46,9 @@ class Item:
     def output_time_in_seconds(self):
         return -1
 
+    def title_display(self):
+        return self.name
+
 # Defines an event with a specific timeframe (anything scheduled)
 
 
@@ -84,6 +87,17 @@ class Event(Item):
     def output_time_in_seconds(self):
         return self.start.timestamp()
 
+    # Displays daily time or full time as formatted string
+    def display_daily_time(self):
+        title_start_time = format_datetime(self.time[0], False, True)
+        title_end_time = format_datetime(self.time[1], False, True)
+        return f"{title_start_time} - {title_end_time}: {self.name}"
+
+    def display_full_time(self):
+        title_start_datetime = format_datetime(self.time[0], True, True)
+        title_end_datetime = format_datetime(self.time[1], True, True)
+        return f"{title_start_datetime} - {title_end_datetime}: {self.name}"
+
 # Broad category of any task to be completed
 
 
@@ -105,6 +119,9 @@ class Assignment(Item):
 
     def output_time_in_seconds(self):
         return self.due_date.timestamp()
+
+    def daily_title_display(self):
+        return self.name
 
 
 class GradedAssignment(Assignment):
@@ -132,3 +149,18 @@ class GradedAssignment(Assignment):
 
     def display(self):
         return super().display().update({"Grade Effect %": self.due_date})
+
+# Defines how to turn a datetime object into a displayable date and/or time
+
+
+def format_datetime(datetime, use_date=False, use_time=True):
+    current_datetime = datetime.now()
+    title_datetime = ""
+    if use_date:
+        title_date = current_datetime.strftime("%b %d, %Y")
+        title_datetime += title_date
+    if use_time:
+        title_datetime += " "
+        title_time = current_datetime.strftime("%H:%M")
+        title_datetime += title_time
+    return title_datetime
