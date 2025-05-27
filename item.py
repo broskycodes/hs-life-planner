@@ -1,11 +1,12 @@
 # Defines any specific task or event, holding at least a name and an association
 class Item:
-    def __init__(self, name, association, current_status):
+    def __init__(self, name, association, current_status, description=""):
         self.name = name  # Name of event
         # Item the event is associated with (course, EC, NA)
         self.association = association
         # Current status of the item (Upcoming, Completed, Late, etc)
         self.current_status = current_status
+        self.description = description  # A description of the item, blank if not specified
 
     @property
     def name(self):
@@ -31,16 +32,28 @@ class Item:
     def current_status(self, current_status):
         self._current_status = current_status
 
+    @property
+    def description(self):
+        return self._description
+
+    @description.setter
+    def description(self, description):
+        self._current_status = description
+
     def display(self):
-        return [self.name, self.association]
+        return {"Name": self.name, "Association": self.association, "Current Status": self.current_status, "Description": self.description}
+
+    def output_time_in_seconds(self):
+        return -1
 
 # Defines an event with a specific timeframe (anything scheduled)
 
 
 class Event(Item):
-    def __init__(self, name, association, time, is_repeated, current_status):
-        super.__init__(self, name, association, current_status)
-        self.time = time  # List containing the start and end times
+    def __init__(self, name, association, start, end, is_repeated, current_status, description=""):
+        super.__init__(self, name, association, current_status, description)
+        self.start = start  # Start time of event
+        self.end = end  # End time of event
         self.is_repeated = is_repeated  # Boolean containing if the event is repeated
 
     @property
@@ -60,14 +73,23 @@ class Event(Item):
         self._is_repeated = is_repeated
 
     def display(self):
-        return super().display().append(self.time, self.is_repeated)
+        return super().display().update({"Time": self.time, "Is repeated": self.is_repeated})
+
+    def change_start(self, start):
+        self.time[0] = start
+
+    def change_end(self, end):
+        self.time[1] = end
+
+    def output_time_in_seconds(self):
+        return self.start.timestamp()
 
 # Broad category of any task to be completed
 
 
 class Assignment(Item):
-    def __init__(self, name, association, due_date, current_status):
-        super.__init__(self, name, association, current_status)
+    def __init__(self, name, association, due_date, current_status, description=""):
+        super.__init__(self, name, association, current_status, description)
         self.due_date = due_date
 
     @property
@@ -77,6 +99,12 @@ class Assignment(Item):
     @due_date.setter
     def due_date(self, due_date):
         self._due_date = due_date
+
+    def display(self):
+        return super().display().update({"Due Date": self.due_date})
+
+    def output_time_in_seconds(self):
+        return self.due_date.timestamp()
 
 
 class GradedAssignment(Assignment):
@@ -101,3 +129,6 @@ class GradedAssignment(Assignment):
     @grade_affect.setter
     def grade_affect(self, grade_affect):
         self._grade_affect = grade_affect
+
+    def display(self):
+        return super().display().update({"Grade Effect %": self.due_date})
