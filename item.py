@@ -88,12 +88,12 @@ class Event(Item):
         return self.start.timestamp()
 
     # Displays daily time or full time as formatted string
-    def display_daily_time(self):
+    def daily_title_display(self):
         title_start_time = format_datetime(self.time[0], False, True)
         title_end_time = format_datetime(self.time[1], False, True)
         return f"{title_start_time} - {title_end_time}: {self.name}"
 
-    def display_full_time(self):
+    def full_title_display(self):
         title_start_datetime = format_datetime(self.time[0], True, True)
         title_end_datetime = format_datetime(self.time[1], True, True)
         return f"{title_start_datetime} - {title_end_datetime}: {self.name}"

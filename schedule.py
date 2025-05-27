@@ -51,6 +51,7 @@ def time_order_update(schedule, items):
         # If item doesn't have a time to sort, then move to next item
         if item.output_time_in_seconds() == -1:
             continue
-        schedule.update({item.name: item})
+        schedule.update({item.daily_title_display(): item})
         {k: v for k, v in sorted(
-            schedule.items(), key=lambda item: item.output_time_in_seconds())}
+            schedule.values(), key=lambda item: item.output_time_in_seconds())}
+    return schedule
