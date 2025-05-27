@@ -106,6 +106,6 @@ class Course(Association):
 
 class EC(Association):
 
-    def __init__(self, item_type, type_importance, name, importance, location, reg_schedule, ):
+    def __init__(self, item_type, type_importance, name, importance, location, reg_schedule):
         super.__init__(self, item_type, type_importance,
                        name, importance, location, reg_schedule)
