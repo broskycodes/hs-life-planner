@@ -6,7 +6,7 @@ from item import Item
 
 
 class DailySchedule():
-    def __init__(self, start, end):
+    def __init__(self, start=0, end=24):
         self.start = start  # Start of the day
         self.end = end  # End of the day (bedtime)
         self.current_event = None  # Sets current event to none
@@ -59,9 +59,25 @@ class DailySchedule():
 
 
 class WeeklySchedule():
-    def __init__():
-        pass
+    def __init__(self):
+        self.list_of_daily_schedules = {"Monday": DailySchedule(),
+                                        "Tuesday": DailySchedule(),
+                                        "Wednesday": DailySchedule(),
+                                        "Thursday": DailySchedule(),
+                                        "Friday": DailySchedule(),
+                                        "Saturday": DailySchedule(),
+                                        "Sunday": DailySchedule()}
 
+    @property
+    def list_of_daily_schedules(self):
+        return self.list_of_daily_schedules
+
+    @list_of_daily_schedules.setter
+    def list_of_daily_schedules(self, list_of_daily_schedules):
+        self.list_of_daily_schedules = list_of_daily_schedules
+
+    def add_event():
+        pass
 # Updates and sorts a given schedule with each item if each item has a fixed time
 
 
