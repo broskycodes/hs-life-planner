@@ -2,6 +2,7 @@
 
 import schedule
 import time
+import pandas as pd
 from item import Item
 
 
@@ -46,7 +47,7 @@ class DailySchedule():
 
     # Adds given events to daily schedule
     # Assumes that events and times are correspondant
-    def add_event(self, events, times):
+    def add_events(self, events, times):
         # Updates current event when time is reached, and adds event to schedule
         for i in range(len(events)):
             def update_current_event(self, event):
@@ -60,13 +61,14 @@ class DailySchedule():
 
 class WeeklySchedule():
     def __init__(self):
-        self.list_of_daily_schedules = {"Monday": DailySchedule(),
-                                        "Tuesday": DailySchedule(),
-                                        "Wednesday": DailySchedule(),
-                                        "Thursday": DailySchedule(),
-                                        "Friday": DailySchedule(),
-                                        "Saturday": DailySchedule(),
-                                        "Sunday": DailySchedule()}
+        daily_schedules = {"Monday": DailySchedule(),
+                           "Tuesday": DailySchedule(),
+                           "Wednesday": DailySchedule(),
+                           "Thursday": DailySchedule(),
+                           "Friday": DailySchedule(),
+                           "Saturday": DailySchedule(),
+                           "Sunday": DailySchedule()}
+        self.list_of_daily_schedules = pd.DataFrame(data=daily_schedules)
 
     @property
     def list_of_daily_schedules(self):
@@ -76,8 +78,12 @@ class WeeklySchedule():
     def list_of_daily_schedules(self, list_of_daily_schedules):
         self.list_of_daily_schedules = list_of_daily_schedules
 
-    def add_event():
-        pass
+    def add_events(self, days, events, times):
+        for day in days:
+            self.list_of_daily_schedules[day].add_event(events, times)
+
+    def add_daily_calendar(self, day, daily_calendar):
+        self.list_of_daily_schedules[day] = daily_calendar
 # Updates and sorts a given schedule with each item if each item has a fixed time
 
 
