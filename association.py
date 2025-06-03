@@ -106,6 +106,59 @@ class Course(Association):
 
 class EC(Association):
 
-    def __init__(self, item_type, type_importance, name, importance, location, reg_schedule):
+    def __init__(self, item_type, type_importance, name, importance, location, reg_schedule, is_team_based, goals, next_event):
         super.__init__(self, item_type, type_importance,
                        name, importance, location, reg_schedule)
+        self.is_team_based = is_team_based
+        self.goals = goals
+        self.next_event = next_event
+
+    # Is the EC team-based or individual
+    @property
+    def is_team_based(self):
+        return self._is_team_based
+
+    @is_team_based.setter
+    def is_team_based(self, is_team_based):
+        self._is_team_based = is_team_based
+
+    @property
+    def goals(self):
+        return self._goals
+
+    @goals.setter
+    def goals(self, goals):
+        self._goals = goals
+
+    @property
+    def next_event(self):
+        return self._next_event
+
+    @next_event.setter
+    def next_event(self, next_event):
+        self._next_event = next_event
+
+
+class Club(EC):
+
+    def __init__(self, item_type, type_importance, name, importance, location, reg_schedule, goals, next_event, role, num_hours):
+        super.__init__(self, item_type, type_importance,
+                       name, importance, location, reg_schedule, True, goals, next_event)
+        self.role = role
+        self.num_hours = num_hours
+
+    @property
+    def role(self):
+        return self._role
+
+    @role.setter
+    def role(self, role):
+        self._role = role
+
+    @property
+    def num_hours(self):
+        return self._num_hours
+
+    @num_hours.setter
+    def num_hours(self, num_hours):
+        self._num_hours = num_hours
