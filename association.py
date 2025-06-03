@@ -106,14 +106,14 @@ class Course(Association):
 
 class EC(Association):
 
-    def __init__(self, item_type, type_importance, name, importance, location, reg_schedule, is_team_based, goals, next_event):
+    def __init__(self, item_type, type_importance, name, importance, location, reg_schedule, is_team_based, goals, next_event, is_active=True):
         super.__init__(self, item_type, type_importance,
                        name, importance, location, reg_schedule)
         self.is_team_based = is_team_based
         self.goals = goals
         self.next_event = next_event
 
-    # Is the EC team-based or individual
+    # Boolean stating if the EC is team-based
     @property
     def is_team_based(self):
         return self._is_team_based
@@ -122,6 +122,7 @@ class EC(Association):
     def is_team_based(self, is_team_based):
         self._is_team_based = is_team_based
 
+    # List containing Goals for the EC
     @property
     def goals(self):
         return self._goals
@@ -130,6 +131,7 @@ class EC(Association):
     def goals(self, goals):
         self._goals = goals
 
+    # The closest event currently for the EC
     @property
     def next_event(self):
         return self._next_event
@@ -138,15 +140,25 @@ class EC(Association):
     def next_event(self, next_event):
         self._next_event = next_event
 
+    # Boolean stating if the EC is active
+    @property
+    def is_active(self):
+        return self._is_active
+
+    @is_active.setter
+    def is_active(self, is_active):
+        self._is_active = is_active
+
 
 class Club(EC):
 
-    def __init__(self, item_type, type_importance, name, importance, location, reg_schedule, goals, next_event, role, num_hours):
+    def __init__(self, item_type, type_importance, name, importance, location, reg_schedule, goals, next_event, role, num_hours, is_active=True):
         super.__init__(self, item_type, type_importance,
-                       name, importance, location, reg_schedule, True, goals, next_event)
+                       name, importance, location, reg_schedule, True, goals, next_event, is_active)
         self.role = role
         self.num_hours = num_hours
 
+    # Defines role within club
     @property
     def role(self):
         return self._role
@@ -155,6 +167,7 @@ class Club(EC):
     def role(self, role):
         self._role = role
 
+    # Keeps track of # of hours performing in the club
     @property
     def num_hours(self):
         return self._num_hours
