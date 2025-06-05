@@ -2,8 +2,9 @@
 
 import schedule
 import time
-import pandas as pd
 from item import Item
+
+# Describes the daily schedule for a person
 
 
 class DailySchedule():
@@ -13,6 +14,7 @@ class DailySchedule():
         self.current_event = None  # Sets current event to none
         self.daily_schedule = {}  # Dictionary containing events, assignments, and other items
 
+    # Getters and setters for the instance variables
     @property
     def start(self):
         return self._start
@@ -58,17 +60,18 @@ class DailySchedule():
         # Updates daily schedule with events
         self.daily_schedule = time_order_update(self.daily_schedule, events)
 
+# Describes the weekly schedule for a person
+
 
 class WeeklySchedule():
     def __init__(self):
-        daily_schedules = {"Monday": DailySchedule(),
-                           "Tuesday": DailySchedule(),
-                           "Wednesday": DailySchedule(),
-                           "Thursday": DailySchedule(),
-                           "Friday": DailySchedule(),
-                           "Saturday": DailySchedule(),
-                           "Sunday": DailySchedule()}
-        self.list_of_daily_schedules = pd.DataFrame(data=daily_schedules)
+        self.list_of_daily_schedules = {"Monday": DailySchedule(),
+                                        "Tuesday": DailySchedule(),
+                                        "Wednesday": DailySchedule(),
+                                        "Thursday": DailySchedule(),
+                                        "Friday": DailySchedule(),
+                                        "Saturday": DailySchedule(),
+                                        "Sunday": DailySchedule()}  # List of days and their schedukes within the week
 
     @property
     def list_of_daily_schedules(self):
@@ -78,12 +81,15 @@ class WeeklySchedule():
     def list_of_daily_schedules(self, list_of_daily_schedules):
         self.list_of_daily_schedules = list_of_daily_schedules
 
+    # Adds events to specific days' calendars
     def add_events(self, days, events, times):
         for day in days:
             self.list_of_daily_schedules[day].add_event(events, times)
+    # Updates a daily calendar
 
-    def add_daily_calendar(self, day, daily_calendar):
+    def update_daily_calendar(self, day, daily_calendar):
         self.list_of_daily_schedules[day] = daily_calendar
+
 # Updates and sorts a given schedule with each item if each item has a fixed time
 
 

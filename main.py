@@ -1,1 +1,10 @@
-print("Start of project here")
+
+# Tester method for classes
+
+
+def main():
+    pass
+
+
+if __name__ == "__main__":
+    main()

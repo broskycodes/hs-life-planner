@@ -1,3 +1,4 @@
+# Describes a group containing items
 class Association:
 
     def __init__(self, item_type, type_importance, name, importance, location, reg_schedule) -> None:
@@ -61,6 +62,8 @@ class Association:
     def reg_schedule(self, reg_schedule):
         self._reg_schedule = reg_schedule
 
+# Describes a school/college course
+
 
 class Course(Association):
     item_type = "Course"
@@ -68,9 +71,11 @@ class Course(Association):
 
     def __init__(self, name, importance, grade, room_n, reg_schedule, special_schedules, weight=4.0, assignment_list=[]):
         super._init_(self, "Course", 5, name, importance, room_n, reg_schedule)
-        self.grade = grade
-        self.weight = weight
+        self.grade = grade  # Grade for the course
+        self.weight = weight  # Weight (based on Honors, AP status)
+        # List of assignments associated with the course
         self.assignment_list = assignment_list
+        # Any special schedules deviating from the regular schedule
         self.special_schedules = special_schedules
 
     @property
@@ -103,17 +108,19 @@ class Course(Association):
     def remove_assignment(self, assignment):
         self._assignment_list.remove(assignment)
 
+# Describes an extracurricular (any non-course pursuit)
+
 
 class EC(Association):
 
     def __init__(self, item_type, type_importance, name, importance, location, reg_schedule, is_team_based, goals, next_event, is_active=True):
         super.__init__(self, item_type, type_importance,
                        name, importance, location, reg_schedule)
-        self.is_team_based = is_team_based
-        self.goals = goals
-        self.next_event = next_event
+        self.is_team_based = is_team_based  # Boolean stating if the EC is team-based
+        self.goals = goals  # List containing Goals for the EC
+        self.next_event = next_event  # The next upcoming event for the EC
+        self.is_active = is_active  # Boolean stating if the EC is active
 
-    # Boolean stating if the EC is team-based
     @property
     def is_team_based(self):
         return self._is_team_based
@@ -122,7 +129,6 @@ class EC(Association):
     def is_team_based(self, is_team_based):
         self._is_team_based = is_team_based
 
-    # List containing Goals for the EC
     @property
     def goals(self):
         return self._goals
@@ -131,7 +137,6 @@ class EC(Association):
     def goals(self, goals):
         self._goals = goals
 
-    # The closest event currently for the EC
     @property
     def next_event(self):
         return self._next_event
@@ -140,7 +145,6 @@ class EC(Association):
     def next_event(self, next_event):
         self._next_event = next_event
 
-    # Boolean stating if the EC is active
     @property
     def is_active(self):
         return self._is_active
@@ -149,16 +153,17 @@ class EC(Association):
     def is_active(self, is_active):
         self._is_active = is_active
 
+# Describes a club
+
 
 class Club(EC):
 
     def __init__(self, item_type, type_importance, name, importance, location, reg_schedule, goals, next_event, role, num_hours, is_active=True):
         super.__init__(self, item_type, type_importance,
                        name, importance, location, reg_schedule, True, goals, next_event, is_active)
-        self.role = role
-        self.num_hours = num_hours
+        self.role = role  # Defines role within club
+        self.num_hours = num_hours  # Keeps track of # of hours performing in the club
 
-    # Defines role within club
     @property
     def role(self):
         return self._role
@@ -167,7 +172,6 @@ class Club(EC):
     def role(self, role):
         self._role = role
 
-    # Keeps track of # of hours performing in the club
     @property
     def num_hours(self):
         return self._num_hours
