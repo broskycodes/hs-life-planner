@@ -1,4 +1,4 @@
-# Defines any specific task or event, holding at least a name and an association
+# Describes any specific task or event, holding at least a name and an association
 class Item:
     def __init__(self, name, association, current_status, description=""):
         self.name = name  # Name of event
@@ -8,6 +8,7 @@ class Item:
         self.current_status = current_status
         self.description = description  # A description of the item, blank if not specified
 
+    # Getters and setters for the instance variables
     @property
     def name(self):
         return self._name
@@ -40,16 +41,19 @@ class Item:
     def description(self, description):
         self._current_status = description
 
+    # Returns dict with instance variables
     def display(self):
         return {"Name": self.name, "Association": self.association, "Current Status": self.current_status, "Description": self.description}
 
+    # Outputs time in seconds (meant to be overriden by other methods)
     def output_time_in_seconds(self):
-        return -1
+        return -1  # Serves as a flag in other programs that no time exists
 
+    # Displays title (meant to be overriden by other methods)
     def title_display(self):
         return self.name
 
-# Defines an event with a specific timeframe (anything scheduled)
+# Describes an event with a specific timeframe (anything scheduled)
 
 
 class Event(Item):
@@ -75,20 +79,23 @@ class Event(Item):
     def start(self, is_repeated):
         self._is_repeated = is_repeated
 
+    # Displays specific list of instance variables (overriden)
     def display(self):
         return super().display().update({"Time": self.time, "Is repeated": self.is_repeated})
 
+    # Changes start or end times of the event
     def change_start(self, start):
         self.time[0] = start
 
     def change_end(self, end):
         self.time[1] = end
 
+    # Outputs the timestamp of the event's start (overriden)
     def output_time_in_seconds(self):
         return self.start.timestamp()
 
-    # Displays daily time or full time as formatted string
-    def daily_title_display(self):
+    # Displays daily time or full time as formatted string (overriden)
+    def title_display(self):
         title_start_time = format_datetime(self.time[0], False, True)
         title_end_time = format_datetime(self.time[1], False, True)
         return f"{title_start_time} - {title_end_time}: {self.name}"
@@ -98,13 +105,13 @@ class Event(Item):
         title_end_datetime = format_datetime(self.time[1], True, True)
         return f"{title_start_datetime} - {title_end_datetime}: {self.name}"
 
-# Broad category of any task to be completed
+# Describes any task to be completed
 
 
 class Assignment(Item):
     def __init__(self, name, association, due_date, current_status, description=""):
         super.__init__(self, name, association, current_status, description)
-        self.due_date = due_date
+        self.due_date = due_date  # Date by which assignment is due
 
     @property
     def due_date(self):
@@ -114,14 +121,15 @@ class Assignment(Item):
     def due_date(self, due_date):
         self._due_date = due_date
 
+    # Displays specific list of instance variables (overriden)
     def display(self):
         return super().display().update({"Due Date": self.due_date})
 
+    # Outputs the timestamp of the assignment's due date (overriden)
     def output_time_in_seconds(self):
         return self.due_date.timestamp()
 
-    def daily_title_display(self):
-        return self.name
+# Describes an assignment with a grade
 
 
 class GradedAssignment(Assignment):
@@ -147,8 +155,9 @@ class GradedAssignment(Assignment):
     def grade_affect(self, grade_affect):
         self._grade_affect = grade_affect
 
+    # Displays specific list of instance variables (overriden)
     def display(self):
-        return super().display().update({"Grade Effect %": self.due_date})
+        return super().display().update({"Points": self.points, "Grade Effect %": self.due_date})
 
 # Defines how to turn a datetime object into a displayable date and/or time
 

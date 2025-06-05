@@ -1,10 +1,14 @@
+# Describes a specific goal associated with a specific association
 class Goal():
     def __init__(self, association, description, importance=5, timeframe="NA"):
-        self.association = association
-        self.description = description
+        self.association = association  # Association that the goal is associated with
+        self.description = description  # Description of the goal
+        # [start, end] of the goal if applicable, else "NA"
         self.timeframe = timeframe
+        # Importance of the goal from 1-10 (5 if not specified)
         self.importance = importance
 
+    # Getters and setters for instance variables
     @property
     def association(self):
         return self._association
